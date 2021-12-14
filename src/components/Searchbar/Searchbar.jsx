@@ -1,21 +1,46 @@
+import { Component } from 'react';
+import { ReactComponent as AddIcon } from '../../icons/search.svg';
 import s from '../Searchbar/Searchbar.module.css';
-export const Searchbar = onSubmit => {
-  return (
-    <header className={s.searchbar}>
-      <form className={s.form}>
-        <button type="submit" className={s.button}>
-          <span className={s.buttonLabel}>Search</span>
-        </button>
 
-        <input
-          className={s.input}
-          type="text"
-          autocomplete="off"
-          autofocus
-          placeholder="Search images and photos"
-          onChange={onSubmit}
-        />
-      </form>
-    </header>
-  );
-};
+export class Searchbar extends Component {
+  state = {
+    imgName: '',
+  };
+
+  handleNameChange = e => {
+    this.setState({ imgName: e.currentTarget.value.toLowerCase() });
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+
+    if (this.state.imgName.trim() === '') {
+      return alert('Введите ключевое слово для поиска');
+    }
+
+    this.props.onSubmit(this.state.imgName);
+    this.setState({ imgName: '' });
+  };
+  render() {
+    return (
+      <header className={s.searchbar} onSubmit={this.handleSubmit}>
+        <form className={s.form}>
+          <button type="submit" className={s.button}>
+            <span className={s.buttonLabel}>
+              <AddIcon fill="blue" width="40px" height="40px" />
+            </span>
+          </button>
+
+          <input
+            className={s.input}
+            type="text"
+            /*autocomplete="off"
+            autofocus*/
+            placeholder="Search images and photos"
+            onChange={this.handleNameChange}
+          />
+        </form>
+      </header>
+    );
+  }
+}
