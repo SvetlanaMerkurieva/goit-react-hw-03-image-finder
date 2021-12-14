@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { Searchbar } from '../Searchbar/Searchbar';
+import { ImageGallery } from '../ImageGallery/ImageGallery';
 import { Modal } from '../Modal/Modal';
 import s from './App.module.css';
 
@@ -26,6 +27,7 @@ class App extends Component {
         <button type="button" onClick={this.toggleModal}>
           Открыть модалку
         </button>
+        <ImageGallery imgName={this.state.imgName} />
       </div>
     );
   }
