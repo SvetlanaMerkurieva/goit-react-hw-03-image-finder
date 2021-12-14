@@ -9,9 +9,9 @@ class App extends Component {
     imgName: '',
     showModal: false,
   };
-
   handleFormSubmit = imgName => {
     this.setState({ imgName });
+    console.log(imgName);
   };
   toggleModal = () => {
     this.setState(({ showModal }) => ({
