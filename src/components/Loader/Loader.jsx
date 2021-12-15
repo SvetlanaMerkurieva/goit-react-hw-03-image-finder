@@ -2,7 +2,7 @@ import { Component } from 'react';
 import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
-export default class LoaderHere extends Component {
+export class LoaderHere extends Component {
   //App
   render() {
     return (
