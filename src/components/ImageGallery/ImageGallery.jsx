@@ -31,6 +31,7 @@ export class ImageGallery extends Component {
         )
         .finally(() => this.setState({ loading: false }));
     }
+    this.props.onChange(this.state.images);
   }
   onButtonClick = () => {
     this.setState(prevState => ({
