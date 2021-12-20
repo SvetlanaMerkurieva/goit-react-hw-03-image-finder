@@ -1,4 +1,5 @@
 import { Component } from 'react';
+/*import axios from 'axios';*/
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 import { Button } from '../Button/Button';
 import { LoaderHere } from '../Loader/Loader';
@@ -14,9 +15,9 @@ export class ImageGallery extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.imgName !== this.props.imgName) {
-      const KEY = '24078076-056bd2e530cc19b75a9dfc811';
-
       this.setState({ images: [], loading: true, page: 1 });
+
+      const KEY = '24078076-056bd2e530cc19b75a9dfc811';
       fetch(
         `https://pixabay.com/api/?q=${this.props.imgName}&page=${this.state.page}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=12`,
       )
@@ -67,3 +68,22 @@ export class ImageGallery extends Component {
     );
   }
 }
+/*const getImages = axios.create({
+  baseURL: 'https://pixabay.com/api/',
+  params: {
+    key: '24078076-056bd2e530cc19b75a9dfc811',
+    image_type: 'photo',
+    orientation: 'horizontal',
+    per_page: 12,
+  },
+});
+async function fetchImages(q = '', page = 1) {
+  const params = { q, page };
+  try {
+    const { data } = await getImages('', { params });
+
+    return data;
+  } catch (error) {
+    alert(`Нет результатов по запросу ${q}`);
+  }
+}*/
