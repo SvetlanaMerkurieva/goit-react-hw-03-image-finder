@@ -11,6 +11,7 @@ export class ImageGallery extends Component {
     loading: false,
     page: 1,
     visible: false,
+    error: null,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -21,13 +22,21 @@ export class ImageGallery extends Component {
       fetch(
         `https://pixabay.com/api/?q=${this.props.imgName}&page=${this.state.page}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=12`,
       )
-        .then(res => res.json())
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          }
+          return Promise.reject(
+            new Error(`Нет изображений по запросу ${this.props.imgName}`),
+          );
+        })
         .then(images =>
           this.setState({
             images: images.hits,
             visible: true,
           }),
         )
+        .catch(error => this.setState({ error }))
         .finally(() => this.setState({ loading: false }));
     }
     if (
@@ -57,10 +66,11 @@ export class ImageGallery extends Component {
   };
 
   render() {
-    const { images, loading, visible } = this.state;
+    const { images, loading, visible, error } = this.state;
 
     return (
       <ul className={s.imageGallery}>
+        {error && <div>{error.message}</div>}
         {images && images.map(image => <ImageGalleryItem image={image} />)}
         {visible && <Button onClick={this.onButtonClick} />}
         {loading && <LoaderHere />}
