@@ -9,17 +9,14 @@ export class ImageGallery extends Component {
     images: [],
     loading: false,
     page: 1,
+    visible: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (
-      prevProps.imgName !== this.props.imgName ||
-      prevState.page !== this.state.page
-    ) {
+    if (prevProps.imgName !== this.props.imgName) {
       const KEY = '24078076-056bd2e530cc19b75a9dfc811';
 
-      this.setState({ images: [] });
-      this.setState({ loading: true });
+      this.setState({ images: [], loading: true, page: 1 });
       fetch(
         `https://pixabay.com/api/?q=${this.props.imgName}&page=${this.state.page}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=12`,
       )
@@ -27,11 +24,30 @@ export class ImageGallery extends Component {
         .then(images =>
           this.setState({
             images: images.hits,
+            visible: true,
           }),
         )
         .finally(() => this.setState({ loading: false }));
     }
-    this.props.onChange(this.state.images);
+    if (
+      prevProps.imgName === this.props.imgName &&
+      prevState.page !== this.state.page
+    ) {
+      const KEY = '24078076-056bd2e530cc19b75a9dfc811';
+
+      this.setState({ loading: true });
+      fetch(
+        `https://pixabay.com/api/?q=${this.props.imgName}&page=${this.state.page}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=12`,
+      )
+        .then(res => res.json())
+        .then(images =>
+          this.setState(prevState => ({
+            images: prevState.images.concat(images.hits),
+            visible: true,
+          })),
+        )
+        .finally(() => this.setState({ loading: false }));
+    }
   }
   onButtonClick = () => {
     this.setState(prevState => ({
@@ -40,12 +56,12 @@ export class ImageGallery extends Component {
   };
 
   render() {
-    const { images, loading } = this.state;
+    const { images, loading, visible } = this.state;
 
     return (
       <ul className={s.imageGallery}>
         {images && images.map(image => <ImageGalleryItem image={image} />)}
-        {images !== [] && <Button onClick={this.onButtonClick} />}
+        {visible && <Button onClick={this.onButtonClick} />}
         {loading && <LoaderHere />}
       </ul>
     );
