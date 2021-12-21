@@ -3,15 +3,18 @@ import { Component } from 'react';
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 import { Button } from '../Button/Button';
 import { LoaderHere } from '../Loader/Loader';
+import { Modal } from '../Modal/Modal';
 import s from '../ImageGallery/ImageGallery.module.css';
 
 export class ImageGallery extends Component {
   state = {
     images: [],
+    largeImage: '',
     loading: false,
     page: 1,
     visible: false,
     error: null,
+    showModal: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -64,6 +67,16 @@ export class ImageGallery extends Component {
       page: prevState.page + 1,
     }));
   };
+  onOpenModal = imageId => {
+    const currentImage = this.state.images.find(image => image.id === imageId);
+    this.setState({ largeImage: currentImage.largeImageURL, showModal: true });
+  };
+
+  onCloseModal = () => {
+    this.setState({
+      showModal: false,
+    });
+  };
 
   render() {
     const { images, loading, visible, error } = this.state;
@@ -71,9 +84,18 @@ export class ImageGallery extends Component {
     return (
       <ul className={s.imageGallery}>
         {error && <div>{error.message}</div>}
-        {images && images.map(image => <ImageGalleryItem image={image} />)}
+        {images &&
+          images.map(image => (
+            <ImageGalleryItem image={image} onOpenModal={this.onOpenModal} />
+          ))}
         {visible && <Button onClick={this.onButtonClick} />}
         {loading && <LoaderHere />}
+        {this.state.showModal && (
+          <Modal
+            imageLarge={this.state.largeImage}
+            onClose={this.onCloseModal}
+          />
+        )}
       </ul>
     );
   }
