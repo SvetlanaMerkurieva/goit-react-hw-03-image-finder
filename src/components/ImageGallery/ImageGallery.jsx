@@ -19,7 +19,7 @@ export class ImageGallery extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.imgName !== this.props.imgName) {
-      this.setState({ images: [], loading: true, page: 1 });
+      this.setState({ images: [], loading: true });
 
       const KEY = '24078076-056bd2e530cc19b75a9dfc811';
       fetch(
@@ -48,7 +48,7 @@ export class ImageGallery extends Component {
     ) {
       const KEY = '24078076-056bd2e530cc19b75a9dfc811';
 
-      this.setState({ loading: true });
+      this.setState({ loading: true, visible: false });
       fetch(
         `https://pixabay.com/api/?q=${this.props.imgName}&page=${this.state.page}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=12`,
       )
@@ -90,9 +90,7 @@ export class ImageGallery extends Component {
               <ImageGalleryItem image={image} onOpenModal={this.onOpenModal} />
             ))}
         </ul>
-        {visible && (
-          <Button onClick={this.onButtonClick} className={s.button} />
-        )}
+        {visible && <Button onClick={this.onButtonClick} />}
         {loading && <LoaderHere />}
         {this.state.showModal && (
           <Modal
