@@ -8,6 +8,7 @@ import s from './App.module.css';
 class App extends Component {
   state = {
     imgName: '',
+    page: 1,
   };
 
   handleFormSubmit = imgName => {
@@ -17,7 +18,7 @@ class App extends Component {
   render() {
     return (
       <div className={s.app}>
-        <Searchbar onSubmit={this.handleFormSubmit} />
+        <Searchbar onSubmit={this.handleFormSubmit} page={this.state.page} />
         <ImageGallery imgName={this.state.imgName} />
       </div>
     );

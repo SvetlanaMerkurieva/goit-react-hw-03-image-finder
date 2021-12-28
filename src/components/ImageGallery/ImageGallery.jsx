@@ -10,8 +10,8 @@ export class ImageGallery extends Component {
   state = {
     images: [],
     largeImage: '',
-    loading: false,
     page: 1,
+    loading: false,
     visible: false,
     error: null,
     showModal: false,
@@ -23,7 +23,7 @@ export class ImageGallery extends Component {
 
       const KEY = '24078076-056bd2e530cc19b75a9dfc811';
       fetch(
-        `https://pixabay.com/api/?q=${this.props.imgName}&page=${this.state.page}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=12`,
+        `https://pixabay.com/api/?q=${this.props.imgName}&page=${this.props.page}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=12`,
       )
         .then(response => {
           if (response.ok) {
@@ -82,13 +82,17 @@ export class ImageGallery extends Component {
     const { images, loading, visible, error } = this.state;
 
     return (
-      <ul className={s.imageGallery}>
-        {error && <div>{error.message}</div>}
-        {images &&
-          images.map(image => (
-            <ImageGalleryItem image={image} onOpenModal={this.onOpenModal} />
-          ))}
-        {visible && <Button onClick={this.onButtonClick} />}
+      <div className={s.content}>
+        <ul className={s.imageGallery}>
+          {error && <div>{error.message}</div>}
+          {images &&
+            images.map(image => (
+              <ImageGalleryItem image={image} onOpenModal={this.onOpenModal} />
+            ))}
+        </ul>
+        {visible && (
+          <Button onClick={this.onButtonClick} className={s.button} />
+        )}
         {loading && <LoaderHere />}
         {this.state.showModal && (
           <Modal
@@ -96,7 +100,7 @@ export class ImageGallery extends Component {
             onClose={this.onCloseModal}
           />
         )}
-      </ul>
+      </div>
     );
   }
 }

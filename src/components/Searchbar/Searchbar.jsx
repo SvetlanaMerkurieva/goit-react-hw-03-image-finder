@@ -23,8 +23,8 @@ export class Searchbar extends Component {
   };
   render() {
     return (
-      <header className={s.searchbar} onSubmit={this.handleSubmit}>
-        <form className={s.form}>
+      <header className={s.searchbar}>
+        <form className={s.form} onSubmit={this.handleSubmit}>
           <button type="submit" className={s.button}>
             <span className={s.buttonLabel}>
               <AddIcon fill="blue" width="40px" height="40px" />
