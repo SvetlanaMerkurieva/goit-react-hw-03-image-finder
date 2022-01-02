@@ -1,11 +1,10 @@
-import { Component } from 'react';
 import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import s from './Loader.module.css';
 
-export class LoaderHere extends Component {
-  //App
-  render() {
-    return (
+export const LoaderHere = () => {
+  return (
+    <div className={s.loader}>
       <Loader
         type="Puff"
         color="#00BFFF"
@@ -13,6 +12,6 @@ export class LoaderHere extends Component {
         width={100}
         timeout={3000} //3 secs
       />
-    );
-  }
-}
+    </div>
+  );
+};

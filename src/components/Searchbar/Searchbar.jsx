@@ -7,8 +7,8 @@ export class Searchbar extends Component {
     imgName: '',
   };
 
-  handleNameChange = e => {
-    this.setState({ imgName: e.currentTarget.value.toLowerCase() });
+  handleNameChange = ({ currentTarget: { value } }) => {
+    this.setState({ imgName: value.toLowerCase() });
   };
 
   handleSubmit = e => {
@@ -17,7 +17,6 @@ export class Searchbar extends Component {
     if (this.state.imgName.trim() === '') {
       return alert('Введите ключевое слово для поиска');
     }
-
     this.props.onSubmit(this.state.imgName);
     this.setState({ imgName: '' });
   };
@@ -36,8 +35,8 @@ export class Searchbar extends Component {
             type="text"
             name="imgName"
             value={this.state.imgName}
-            /*autocomplete="off"
-            autofocus*/
+            autoComplete="off"
+            autoFocus
             placeholder="Search images and photos"
             onChange={this.handleNameChange}
           />
