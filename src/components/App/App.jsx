@@ -25,7 +25,7 @@ class App extends Component {
 
   async componentDidUpdate(_prevProps, prevState) {
     if (prevState.imgName !== this.state.imgName) {
-      this.setState({ images: [], loading: true });
+      this.setState({ images: [], loading: true, visible: false });
       try {
         const images = await fetchImages(this.state.imgName, this.state.page);
 
